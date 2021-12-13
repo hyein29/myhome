@@ -6,6 +6,7 @@ import com.practice.myhome.model.User;
 import com.practice.myhome.repository.BoardRepository;
 import com.practice.myhome.repository.UserRepository;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.sun.xml.bind.annotation.XmlIsSet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,10 @@ public class UserApiController {
             QUser user = QUser.user;
             Predicate predicate = user.username.contains(text);
             users = repository.findAll(predicate);
+        } else if("querydslCustom".equals(method)){
+            users = repository.findByUsernameCustom(text);
+        } else if("jdbc".equals(method)){
+            users = repository.findByUsernameJdbc(text);
         } else {
             users = repository.findAll();
         }
